@@ -39,6 +39,8 @@ dependencies:
   url_strategy: ^0.2.0
   qr_flutter: ^4.1.0
   screenshot: ^2.1.0
+  http: ^1.0.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
