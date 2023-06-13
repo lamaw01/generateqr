@@ -12,14 +12,35 @@ import '../services/http_services.dart';
 
 class HomeData with ChangeNotifier {
   final screenshotController = ScreenshotController();
+
   final _departmentList = <DepartmentModel>[];
   List<DepartmentModel> get departmentList => _departmentList;
+
   var _isLoading = true;
   bool get isLoading => _isLoading;
+
   final _employeeList = <EmployeeModel>[];
   List<EmployeeModel> get employeeList => _employeeList;
+
   var _rowCount = 0;
   int get rowCount => _rowCount;
+
+  var _isSearching = false;
+  bool get isSearching => _isSearching;
+
+  final _searchEmployeeList = <EmployeeModel>[];
+  List<EmployeeModel> get searchEmployeeList => _searchEmployeeList;
+
+  void changeStateSearching(bool state) {
+    _isSearching = state;
+    notifyListeners();
+    debugPrint(_isSearching.toString());
+  }
+
+  void clearSearchList() {
+    _searchEmployeeList.clear();
+    changeStateSearching(false);
+  }
 
   void sortId() {
     _employeeList.replaceRange(0, _employeeList.length, _employeeList.reversed);
@@ -43,7 +64,7 @@ class HomeData with ChangeNotifier {
       if (result != null) {
         downloadQrImage(
           bytes: result,
-          downloadName: '$fileName.png',
+          downloadName: 'QR $fileName.png',
         );
       }
     }).catchError((Object err) {
@@ -103,7 +124,7 @@ class HomeData with ChangeNotifier {
         departmentId: departmentId,
         employeeId: employeeId,
       );
-      _employeeList.replaceRange(0, _employeeList.length, result);
+      _searchEmployeeList.replaceRange(0, _searchEmployeeList.length, result);
       notifyListeners();
     } catch (e) {
       debugPrint('$e');
@@ -113,14 +134,10 @@ class HomeData with ChangeNotifier {
   Future<void> loadMore({
     required String id,
     required String departmentId,
-    required String employeeId,
   }) async {
     try {
-      final result = await HttpService.loadMore(
-        id: id,
-        departmentId: departmentId,
-        employeeId: employeeId,
-      );
+      final result =
+          await HttpService.loadMore(id: id, departmentId: departmentId);
       _employeeList.addAll(result);
       notifyListeners();
     } catch (e) {

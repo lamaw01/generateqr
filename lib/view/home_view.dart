@@ -145,6 +145,10 @@ class _HomeViewState extends State<HomeView> {
                                             await provider.getEmployee(
                                                 departmentId:
                                                     dropdownValue.departmentId);
+                                            if (provider.isSearching) {
+                                              idController.clear();
+                                              provider.clearSearchList();
+                                            }
                                           }
                                         },
                                         items: provider.departmentList.map<
@@ -181,10 +185,18 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                   controller: idController,
                                   onChanged: (String value) async {
-                                    await provider.searchEmployee(
-                                      departmentId: dropdownValue.departmentId,
-                                      employeeId: value.trim(),
-                                    );
+                                    if (dropdownValue.departmentId != '666') {
+                                      if (idController.text.isEmpty) {
+                                        provider.changeStateSearching(false);
+                                      } else {
+                                        provider.changeStateSearching(true);
+                                        await provider.searchEmployee(
+                                          departmentId:
+                                              dropdownValue.departmentId,
+                                          employeeId: value.trim(),
+                                        );
+                                      }
+                                    }
                                   },
                                 ),
                               ),
@@ -195,70 +207,152 @@ class _HomeViewState extends State<HomeView> {
                     );
                   },
                 ),
-                SizedBox(
-                  height: 50.0,
-                  width: 800.0,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          child: const Text('Employee No.'),
-                          onTap: () {
-                            var instance =
-                                Provider.of<HomeData>(context, listen: false);
-                            instance.sortId();
-                          },
+                Consumer<HomeData>(
+                  builder: (context, provider, child) {
+                    if (dropdownValue.departmentId != '666') {
+                      return SizedBox(
+                        height: 50.0,
+                        width: 800.0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                child: const Text('Employee No.'),
+                                onTap: () {
+                                  var instance = Provider.of<HomeData>(context,
+                                      listen: false);
+                                  instance.sortId();
+                                },
+                              ),
+                              InkWell(
+                                child: const Text('Name'),
+                                onTap: () {
+                                  var instance = Provider.of<HomeData>(context,
+                                      listen: false);
+                                  instance.sortName();
+                                },
+                              ),
+                              const SizedBox(width: 75.0),
+                            ],
+                          ),
                         ),
-                        InkWell(
-                          child: const Text('Name'),
-                          onTap: () {
-                            var instance =
-                                Provider.of<HomeData>(context, listen: false);
-                            instance.sortName();
-                          },
-                        ),
-                        const SizedBox(width: 75.0),
-                      ],
-                    ),
-                  ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
-                Consumer<HomeData>(builder: (context, provider, child) {
-                  return SizedBox(
-                    width: 800.0,
-                    child: Column(
-                      children: provider.employeeList.map((item) {
-                        return Card(
-                          child: ListTile(
-                            titleAlignment: ListTileTitleAlignment.center,
-                            leading: Text(item.employeeId),
-                            title: Text(
-                              item.name,
-                              textAlign: TextAlign.center,
-                            ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.download),
-                              onPressed: () {
-                                showQrDialog(employee: item);
-                              },
-                              splashRadius: 15.0,
+                Consumer<HomeData>(
+                  builder: (context, provider, child) {
+                    if (provider.isSearching) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 800.0,
+                            child: Column(
+                              children: provider.searchEmployeeList.map((item) {
+                                return Card(
+                                  child: ListTile(
+                                    titleAlignment:
+                                        ListTileTitleAlignment.center,
+                                    leading: Text(item.employeeId),
+                                    title: Text(
+                                      item.name,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    trailing: IconButton(
+                                      icon: const Icon(Icons.download),
+                                      onPressed: () {
+                                        showQrDialog(employee: item);
+                                      },
+                                      splashRadius: 15.0,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
                             ),
                           ),
-                        );
-                      }).toList(),
-                    ),
-                  );
-                }),
-                const SizedBox(height: 15.0),
-                Consumer<HomeData>(builder: (context, provider, child) {
-                  return Text(
-                    'Showing ${provider.employeeList.length} out of ${provider.rowCount} results.',
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  );
-                }),
+                          const SizedBox(height: 15.0),
+                          Text(
+                            'Showing ${provider.searchEmployeeList.length} search results.',
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 800.0,
+                            child: Column(
+                              children: provider.employeeList.map((item) {
+                                return Card(
+                                  child: ListTile(
+                                    titleAlignment:
+                                        ListTileTitleAlignment.center,
+                                    leading: Text(item.employeeId),
+                                    title: Text(
+                                      item.name,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    trailing: IconButton(
+                                      icon: const Icon(Icons.download),
+                                      onPressed: () {
+                                        showQrDialog(employee: item);
+                                      },
+                                      splashRadius: 15.0,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          const SizedBox(height: 15.0),
+                          if (provider.employeeList.length <
+                              provider.rowCount) ...[
+                            SizedBox(
+                              height: 50.0,
+                              width: 200.0,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.green[300],
+                                ),
+                                onPressed: () async {
+                                  await provider.loadMore(
+                                    id: provider.employeeList.last.id,
+                                    departmentId: dropdownValue.departmentId,
+                                  );
+                                },
+                                child: const Text(
+                                  'Load more..',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: 15.0),
+                          if (dropdownValue.departmentId != '666') ...[
+                            Text(
+                              'Showing ${provider.employeeList.length} out of ${provider.rowCount} results.',
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                          ],
+                        ],
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),

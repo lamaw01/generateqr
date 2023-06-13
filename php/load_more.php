@@ -15,12 +15,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('id', $input)){
     if($department_id == '000'){
         $sql_get_employee_department = "SELECT tbl_employee.id,tbl_employee.employee_id,tbl_employee.name FROM tbl_employee 
         LEFT JOIN tbl_employee_department ON tbl_employee.employee_id = tbl_employee_department.employee_id 
-        WHERE tbl_employee.id > :id AND tbl_employee.active = 1 GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id ASC LIMIT 100;";
+        WHERE tbl_employee.id > :id AND tbl_employee.active = 1 
+        GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id ASC LIMIT 100;";
 
         try {
             $get_employee_department= $conn->prepare($sql_get_employee_department);
             $get_employee_department->bindParam(':id', $id, PDO::PARAM_STR);
-            $get_employee_department->bindParam(':department_id', $department_id, PDO::PARAM_STR);
             $get_employee_department->execute();
             $result_get_employee_department = $get_employee_department->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($result_get_employee_department);
@@ -33,7 +33,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('id', $input)){
     }else{
         $sql_get_employee_department = "SELECT tbl_employee.id,tbl_employee.employee_id,tbl_employee.name FROM tbl_employee 
         LEFT JOIN tbl_employee_department ON tbl_employee.employee_id = tbl_employee_department.employee_id 
-        WHERE tbl_employee.id > :id AND tbl_employee_department.department_id = :department_id AND tbl_employee.active = 1 ORDER BY tbl_employee.employee_id ASC LIMIT 100;";
+        WHERE tbl_employee.id > :id AND tbl_employee_department.department_id = :department_id AND tbl_employee.active = 1
+        GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id ASC LIMIT 100;";
     
         try {
             $get_employee_department= $conn->prepare($sql_get_employee_department);

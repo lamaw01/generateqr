@@ -84,14 +84,11 @@ class HttpService {
     return employeeModelFromJson(response.body);
   }
 
-  static Future<List<EmployeeModel>> loadMore({
-    required String id,
-    required String departmentId,
-    required String employeeId,
-  }) async {
+  static Future<List<EmployeeModel>> loadMore(
+      {required String id, required String departmentId}) async {
     var response = await http
         .post(
-          Uri.parse('$_serverUrl/search_employee.php'),
+          Uri.parse('$_serverUrl/load_more.php'),
           headers: <String, String>{
             'Accept': '*/*',
             'Content-Type': 'application/json; charset=UTF-8',
@@ -100,7 +97,6 @@ class HttpService {
             <String, dynamic>{
               'id': id,
               'department_id': departmentId,
-              'employee_id': employeeId,
             },
           ),
         )
