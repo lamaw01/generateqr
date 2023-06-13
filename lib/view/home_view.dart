@@ -219,7 +219,7 @@ class _HomeViewState extends State<HomeView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               InkWell(
-                                child: const Text('Employee No.'),
+                                child: const Text('ID No.'),
                                 onTap: () {
                                   var instance = Provider.of<HomeData>(context,
                                       listen: false);
@@ -227,14 +227,14 @@ class _HomeViewState extends State<HomeView> {
                                 },
                               ),
                               InkWell(
-                                child: const Text('Name'),
+                                child: const Text('NAME'),
                                 onTap: () {
                                   var instance = Provider.of<HomeData>(context,
                                       listen: false);
                                   instance.sortName();
                                 },
                               ),
-                              const SizedBox(width: 75.0),
+                              const SizedBox(width: 60.0),
                             ],
                           ),
                         ),
@@ -339,8 +339,8 @@ class _HomeViewState extends State<HomeView> {
                               ),
                             ),
                           ],
-                          const SizedBox(height: 15.0),
                           if (dropdownValue.departmentId != '666') ...[
+                            const SizedBox(height: 15.0),
                             Text(
                               'Showing ${provider.employeeList.length} out of ${provider.rowCount} results.',
                               style: const TextStyle(
@@ -353,6 +353,7 @@ class _HomeViewState extends State<HomeView> {
                     }
                   },
                 ),
+                const SizedBox(height: 50.0),
               ],
             ),
           ),
