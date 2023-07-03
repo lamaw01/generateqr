@@ -23,7 +23,7 @@ class EmployeeModel {
   });
 
   factory EmployeeModel.fromJson(Map<String, dynamic> json) => EmployeeModel(
-        id: json["id"],
+        id: json["id"].toString(),
         employeeId: json["employee_id"],
         name: json["name"],
       );

@@ -7,8 +7,7 @@ import '../model/department_model.dart';
 import '../model/employee_model.dart';
 
 class HttpService {
-  static const String _serverUrl =
-      'http://uc-1.dnsalias.net:55083/generate_qr_api';
+  static const String _serverUrl = 'http://103.62.153.74:53000/generate_qr_api';
 
   static Future<List<DepartmentModel>> getDepartment() async {
     var response = await http.get(

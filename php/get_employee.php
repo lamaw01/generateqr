@@ -17,6 +17,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('department_id', $in
         WHERE tbl_employee.active = 1 GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id ASC LIMIT 100;";
     
         try {
+            $set=$conn->prepare("SET SQL_MODE=''");
+            $set->execute();
+
             $get_employee_department= $conn->prepare($sql_get_employee_department);
             $get_employee_department->execute();
             $result_get_employee_department = $get_employee_department->fetchAll(PDO::FETCH_ASSOC);
@@ -33,6 +36,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('department_id', $in
         WHERE tbl_employee_department.department_id = :department_id AND tbl_employee.active = 1 ORDER BY tbl_employee.employee_id ASC LIMIT 100;";
     
         try {
+            $set=$conn->prepare("SET SQL_MODE=''");
+            $set->execute();
+
             $get_employee_department= $conn->prepare($sql_get_employee_department);
             $get_employee_department->bindParam(':department_id', $department_id, PDO::PARAM_STR);
             $get_employee_department->execute();

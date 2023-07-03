@@ -19,6 +19,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('id', $input)){
         GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id ASC LIMIT 100;";
 
         try {
+            $set=$conn->prepare("SET SQL_MODE=''");
+            $set->execute();
+
             $get_employee_department= $conn->prepare($sql_get_employee_department);
             $get_employee_department->bindParam(':id', $id, PDO::PARAM_STR);
             $get_employee_department->execute();
@@ -37,6 +40,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('id', $input)){
         GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id ASC LIMIT 100;";
     
         try {
+            $set=$conn->prepare("SET SQL_MODE=''");
+            $set->execute();
+
             $get_employee_department= $conn->prepare($sql_get_employee_department);
             $get_employee_department->bindParam(':id', $id, PDO::PARAM_STR);
             $get_employee_department->bindParam(':department_id', $department_id, PDO::PARAM_STR);

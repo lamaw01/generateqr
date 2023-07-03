@@ -20,6 +20,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('employee_id', $inpu
         AND tbl_employee.active = 1 GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id;";
     
         try {
+            $set=$conn->prepare("SET SQL_MODE=''");
+            $set->execute();
+
             $get_search_employee= $conn->prepare($sql_search_employee);
             $get_search_employee->bindParam(':employee_id', $concat_employee_id, PDO::PARAM_STR);
             $get_search_employee->execute();
@@ -39,6 +42,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('employee_id', $inpu
         AND tbl_employee.active = 1 GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id;";
     
         try {
+            $set=$conn->prepare("SET SQL_MODE=''");
+            $set->execute();
+
             $get_search_employee= $conn->prepare($sql_search_employee);
             $get_search_employee->bindParam(':department_id', $department_id, PDO::PARAM_STR);
             $get_search_employee->bindParam(':employee_id', $concat_employee_id, PDO::PARAM_STR);
