@@ -14,23 +14,31 @@ String employeeModelToJson(List<EmployeeModel> data) =>
 class EmployeeModel {
   String id;
   String employeeId;
-  String name;
+  String firstName;
+  String lastName;
+  String middleName;
 
   EmployeeModel({
     required this.id,
     required this.employeeId,
-    required this.name,
+    required this.firstName,
+    required this.lastName,
+    required this.middleName,
   });
 
   factory EmployeeModel.fromJson(Map<String, dynamic> json) => EmployeeModel(
         id: json["id"].toString(),
         employeeId: json["employee_id"],
-        name: json["name"],
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        middleName: json["middle_name"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "employee_id": employeeId,
-        "name": name,
+        "first_name": firstName,
+        "last_name": lastName,
+        "middle_name": middleName,
       };
 }

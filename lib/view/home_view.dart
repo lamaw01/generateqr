@@ -54,10 +54,10 @@ class _HomeViewState extends State<HomeView> {
                 controller: instance.screenshotController,
                 child: QrImageView(
                   data:
-                      '{"name": "${employee.name}","id":"${employee.employeeId}"}',
+                      '{"name":"${instance.nameSingle(employee)}","id":"${employee.employeeId}"}',
                   version: QrVersions.auto,
                   size: 300.0,
-                  semanticsLabel: employee.name,
+                  semanticsLabel: instance.nameSingle(employee),
                 ),
               ),
             ),
@@ -72,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 onPressed: () async {
                   await instance
-                      .captureQrImage(fileName: employee.name)
+                      .captureQrImage(fileName: instance.nameSingle(employee))
                       .then((_) => Navigator.of(context).pop());
                 },
               ),
@@ -221,17 +221,13 @@ class _HomeViewState extends State<HomeView> {
                               InkWell(
                                 child: const Text('ID No.'),
                                 onTap: () {
-                                  var instance = Provider.of<HomeData>(context,
-                                      listen: false);
-                                  instance.sortId();
+                                  provider.sortId();
                                 },
                               ),
                               InkWell(
                                 child: const Text('NAME'),
                                 onTap: () {
-                                  var instance = Provider.of<HomeData>(context,
-                                      listen: false);
-                                  instance.sortName();
+                                  provider.sortName();
                                 },
                               ),
                               const SizedBox(width: 60.0),
@@ -259,7 +255,7 @@ class _HomeViewState extends State<HomeView> {
                                         ListTileTitleAlignment.center,
                                     leading: Text(item.employeeId),
                                     title: Text(
-                                      item.name,
+                                      provider.nameSingle(item),
                                       textAlign: TextAlign.center,
                                     ),
                                     trailing: IconButton(
@@ -297,7 +293,7 @@ class _HomeViewState extends State<HomeView> {
                                         ListTileTitleAlignment.center,
                                     leading: Text(item.employeeId),
                                     title: Text(
-                                      item.name,
+                                      provider.nameSingle(item),
                                       textAlign: TextAlign.center,
                                     ),
                                     trailing: IconButton(

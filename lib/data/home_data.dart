@@ -28,6 +28,9 @@ class HomeData with ChangeNotifier {
   var _isSearching = false;
   bool get isSearching => _isSearching;
 
+  var _sortingName = false;
+  bool get sortingName => _sortingName;
+
   final _searchEmployeeList = <EmployeeModel>[];
   List<EmployeeModel> get searchEmployeeList => _searchEmployeeList;
 
@@ -45,15 +48,31 @@ class HomeData with ChangeNotifier {
   void sortId() {
     _employeeList.replaceRange(0, _employeeList.length, _employeeList.reversed);
     notifyListeners();
-    debugPrint(_employeeList.first.name);
   }
 
   void sortName() {
-    _employeeList.sort((a, b) {
-      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
-    });
+    _sortingName = !_sortingName;
+    if (_sortingName) {
+      _employeeList.sort((a, b) {
+        return '${a.firstName.toLowerCase()} ${a.middleName.toLowerCase()} ${a.lastName.toLowerCase()}'
+            .compareTo(
+                '${b.firstName.toLowerCase()} ${b.middleName.toLowerCase()} ${b.lastName.toLowerCase()}');
+      });
+    } else {
+      _employeeList.sort((a, b) {
+        return '${b.firstName.toLowerCase()} ${b.middleName.toLowerCase()} ${b.lastName.toLowerCase()}'
+            .compareTo(
+                '${a.firstName.toLowerCase()} ${a.middleName.toLowerCase()} ${a.lastName.toLowerCase()}');
+      });
+    }
+
     notifyListeners();
-    debugPrint(_employeeList.first.name);
+  }
+
+  String nameSingle(EmployeeModel employeeModel) {
+    final name =
+        "${employeeModel.firstName} ${employeeModel.middleName} ${employeeModel.lastName}";
+    return name;
   }
 
   Future<void> captureQrImage({required String fileName}) async {

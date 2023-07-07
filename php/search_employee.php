@@ -14,9 +14,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('employee_id', $inpu
     $concat_employee_id = "%$employee_id%";
 
     if($department_id == '000'){
-        $sql_search_employee= "SELECT tbl_employee.id,tbl_employee.employee_id,tbl_employee.name FROM tbl_employee 
+        $sql_search_employee= "SELECT tbl_employee.id,tbl_employee.employee_id, tbl_employee.first_name, tbl_employee.last_name, tbl_employee.middle_name FROM tbl_employee 
         LEFT JOIN tbl_employee_department ON tbl_employee.employee_id = tbl_employee_department.employee_id 
-        WHERE (tbl_employee.employee_id LIKE :employee_id OR tbl_employee.name LIKE :employee_id)  
+        WHERE (tbl_employee.employee_id LIKE :employee_id OR tbl_employee.first_name LIKE :employee_id OR tbl_employee.last_name LIKE :employee_id)  
         AND tbl_employee.active = 1 GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id;";
     
         try {
@@ -35,10 +35,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('employee_id', $inpu
             $conn = null;
         }
     }else{
-        $sql_search_employee= "SELECT tbl_employee.id,tbl_employee.employee_id,tbl_employee.name FROM tbl_employee 
+        $sql_search_employee= "SELECT tbl_employee.id,tbl_employee.employee_id, tbl_employee.first_name, tbl_employee.last_name, tbl_employee.middle_name FROM tbl_employee 
         LEFT JOIN tbl_employee_department ON tbl_employee.employee_id = tbl_employee_department.employee_id 
         WHERE tbl_employee_department.department_id = :department_id 
-        AND (tbl_employee.employee_id LIKE :employee_id OR tbl_employee.name LIKE :employee_id)  
+        AND (tbl_employee.employee_id LIKE :employee_id OR tbl_employee.first_name LIKE :employee_id OR tbl_employee.last_name LIKE :employee_id)  
         AND tbl_employee.active = 1 GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id;";
     
         try {
