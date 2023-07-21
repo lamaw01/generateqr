@@ -37,7 +37,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     const String title = 'Generate QR';
 
-    void showQrDialog({
+    Future<void> showQrDialog({
       required EmployeeModel employee,
     }) async {
       var instance = Provider.of<HomeData>(context, listen: false);
@@ -52,12 +52,19 @@ class _HomeViewState extends State<HomeView> {
               width: 300.0,
               child: Screenshot(
                 controller: instance.screenshotController,
-                child: QrImageView(
-                  data:
-                      '{"name":"${instance.nameSingle(employee)}","id":"${employee.employeeId}"}',
-                  version: QrVersions.auto,
-                  size: 300.0,
-                  semanticsLabel: instance.nameSingle(employee),
+                child: Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: QrImageView(
+                      data:
+                          '{"name":"${instance.nameSingle(employee)}","id":"${employee.employeeId}"}',
+                      version: QrVersions.auto,
+                      size: 225.0,
+                      semanticsLabel: instance.nameSingle(employee),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -260,8 +267,8 @@ class _HomeViewState extends State<HomeView> {
                                     ),
                                     trailing: IconButton(
                                       icon: const Icon(Icons.download),
-                                      onPressed: () {
-                                        showQrDialog(employee: item);
+                                      onPressed: () async {
+                                        await showQrDialog(employee: item);
                                       },
                                       splashRadius: 15.0,
                                     ),
@@ -298,8 +305,8 @@ class _HomeViewState extends State<HomeView> {
                                     ),
                                     trailing: IconButton(
                                       icon: const Icon(Icons.download),
-                                      onPressed: () {
-                                        showQrDialog(employee: item);
+                                      onPressed: () async {
+                                        await showQrDialog(employee: item);
                                       },
                                       splashRadius: 15.0,
                                     ),
