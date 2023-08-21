@@ -14,7 +14,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('department_id', $in
     if($department_id == '000'){
         $sql_get_employee_department = "SELECT tbl_employee.id, tbl_employee.employee_id, tbl_employee.first_name, tbl_employee.last_name, tbl_employee.middle_name FROM tbl_employee 
         LEFT JOIN tbl_employee_department ON tbl_employee.employee_id = tbl_employee_department.employee_id 
-        WHERE tbl_employee.active = 1 GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.employee_id ASC LIMIT 100;";
+        WHERE tbl_employee.active = 1 GROUP BY tbl_employee.employee_id ORDER BY tbl_employee.last_name LIMIT 100;";
     
         try {
             $set=$conn->prepare("SET SQL_MODE=''");
@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('department_id', $in
     }else{
         $sql_get_employee_department = "SELECT tbl_employee.id, tbl_employee.employee_id, tbl_employee.first_name, tbl_employee.last_name, tbl_employee.middle_name FROM tbl_employee 
         LEFT JOIN tbl_employee_department ON tbl_employee.employee_id = tbl_employee_department.employee_id 
-        WHERE tbl_employee_department.department_id = :department_id AND tbl_employee.active = 1 ORDER BY tbl_employee.employee_id ASC LIMIT 100;";
+        WHERE tbl_employee_department.department_id = :department_id AND tbl_employee.active = 1 ORDER BY tbl_employee.last_name LIMIT 100;";
     
         try {
             $set=$conn->prepare("SET SQL_MODE=''");
