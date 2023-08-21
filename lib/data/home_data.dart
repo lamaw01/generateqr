@@ -28,9 +28,6 @@ class HomeData with ChangeNotifier {
   var _isSearching = false;
   bool get isSearching => _isSearching;
 
-  var _sortingName = false;
-  bool get sortingName => _sortingName;
-
   final _searchEmployeeList = <EmployeeModel>[];
   List<EmployeeModel> get searchEmployeeList => _searchEmployeeList;
 
@@ -46,32 +43,22 @@ class HomeData with ChangeNotifier {
   }
 
   void sortId() {
-    _employeeList.replaceRange(0, _employeeList.length, _employeeList.reversed);
+    _employeeList.sort((a, b) {
+      return a.employeeId.compareTo(b.employeeId);
+    });
     notifyListeners();
   }
 
   void sortName() {
-    _sortingName = !_sortingName;
-    if (_sortingName) {
-      _employeeList.sort((a, b) {
-        return '${a.firstName.toLowerCase()} ${a.middleName.toLowerCase()} ${a.lastName.toLowerCase()}'
-            .compareTo(
-                '${b.firstName.toLowerCase()} ${b.middleName.toLowerCase()} ${b.lastName.toLowerCase()}');
-      });
-    } else {
-      _employeeList.sort((a, b) {
-        return '${b.firstName.toLowerCase()} ${b.middleName.toLowerCase()} ${b.lastName.toLowerCase()}'
-            .compareTo(
-                '${a.firstName.toLowerCase()} ${a.middleName.toLowerCase()} ${a.lastName.toLowerCase()}');
-      });
-    }
-
+    _employeeList.sort((a, b) {
+      return a.lastName.toLowerCase().compareTo(b.lastName.toLowerCase());
+    });
     notifyListeners();
   }
 
   String nameSingle(EmployeeModel employeeModel) {
     final name =
-        "${employeeModel.firstName} ${employeeModel.middleName} ${employeeModel.lastName}";
+        "${employeeModel.lastName}, ${employeeModel.firstName} ${employeeModel.middleName} ";
     return name;
   }
 
