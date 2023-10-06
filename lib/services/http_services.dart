@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../model/department_model.dart';
 import '../model/employee_model.dart';
+import '../model/solo_employee_model.dart';
 
 class HttpService {
   static const String _serverUrl = 'http://103.62.153.74:53000/generate_qr_api';
@@ -103,5 +104,26 @@ class HttpService {
 
     debugPrint('loadMore ${response.body}');
     return employeeModelFromJson(response.body);
+  }
+
+  static Future<SoloEmployeeModel> getSoloEmployee(
+      {required String employeeId}) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/get_solo_employee.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(
+            <String, dynamic>{
+              'employee_id': employeeId,
+            },
+          ),
+        )
+        .timeout(const Duration(seconds: 10));
+
+    debugPrint('getSoloEmployee ${response.body}');
+    return soloEmployeeModelFromJson(response.body);
   }
 }

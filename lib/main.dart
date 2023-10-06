@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'data/home_data.dart';
 import 'view/home_view.dart';
+import 'view/qr_solo_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,18 +30,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: _router,
       scrollBehavior: CustomScrollBehavior(),
       debugShowCheckedModeBanner: false,
       title: 'Generate QR',
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      //   useMaterial3: true,
-      // ),
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: false,
       ),
-      home: const HomeView(),
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
+      // home: const HomeView(),
     );
   }
 }
@@ -49,3 +54,24 @@ class CustomScrollBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.mouse,
       };
 }
+
+final GoRouter _router = GoRouter(
+  routes: <RouteBase>[
+    GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const HomeView();
+      },
+      routes: <RouteBase>[
+        GoRoute(
+          path: "qr/:id",
+          builder: (BuildContext context, GoRouterState state) {
+            final id = state.pathParameters['id']!;
+            log(id);
+            return QrSoloView(id: id);
+          },
+        ),
+      ],
+    ),
+  ],
+);

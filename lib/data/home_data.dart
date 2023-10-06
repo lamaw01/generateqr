@@ -8,6 +8,7 @@ import 'package:screenshot/screenshot.dart';
 
 import '../model/department_model.dart';
 import '../model/employee_model.dart';
+import '../model/solo_employee_model.dart';
 import '../services/http_services.dart';
 
 class HomeData with ChangeNotifier {
@@ -30,6 +31,12 @@ class HomeData with ChangeNotifier {
 
   final _searchEmployeeList = <EmployeeModel>[];
   List<EmployeeModel> get searchEmployeeList => _searchEmployeeList;
+
+  SoloEmployeeModel? _soloEmployeeList;
+  SoloEmployeeModel? get soloEmployeeList => _soloEmployeeList;
+
+  var _isSoloLoading = false;
+  bool get isSoloLoading => _isSoloLoading;
 
   void changeStateSearching(bool state) {
     _isSearching = state;
@@ -57,6 +64,12 @@ class HomeData with ChangeNotifier {
   }
 
   String nameSingle(EmployeeModel employeeModel) {
+    final name =
+        "${employeeModel.lastName}, ${employeeModel.firstName} ${employeeModel.middleName} ";
+    return name;
+  }
+
+  String fullName(SoloEmployeeModel employeeModel) {
     final name =
         "${employeeModel.lastName}, ${employeeModel.firstName} ${employeeModel.middleName} ";
     return name;
@@ -148,6 +161,21 @@ class HomeData with ChangeNotifier {
       notifyListeners();
     } catch (e) {
       debugPrint('$e');
+    }
+  }
+
+  Future<void> getSoloEmployee({
+    required String employeeId,
+  }) async {
+    _isSoloLoading = true;
+    try {
+      final result = await HttpService.getSoloEmployee(employeeId: employeeId);
+      _soloEmployeeList = result;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('$e');
+    } finally {
+      _isSoloLoading = false;
     }
   }
 }
