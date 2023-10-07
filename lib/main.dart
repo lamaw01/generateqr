@@ -1,3 +1,4 @@
+// ignore: unused_import
 import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
@@ -59,12 +60,14 @@ final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/',
+      name: '/home',
       builder: (BuildContext context, GoRouterState state) {
         return const HomeView();
       },
       routes: <RouteBase>[
         GoRoute(
-          path: "my_qr/:id",
+          path: 'my_qr/:id',
+          name: '/my_qr',
           builder: (BuildContext context, GoRouterState state) {
             final id = state.pathParameters['id']!;
             log(id);
