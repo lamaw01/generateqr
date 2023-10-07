@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:html';
 import 'dart:typed_data';
 
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -32,16 +33,19 @@ class HomeData with ChangeNotifier {
   final _searchEmployeeList = <EmployeeModel>[];
   List<EmployeeModel> get searchEmployeeList => _searchEmployeeList;
 
-  SoloEmployeeModel? _soloEmployeeList;
-  SoloEmployeeModel? get soloEmployeeList => _soloEmployeeList;
+  var _soloEmployeeList = SoloEmployeeModel(
+      id: 0, employeeId: '00000', firstName: '', lastName: '', middleName: '');
+  SoloEmployeeModel get soloEmployeeList => _soloEmployeeList;
 
-  var _isSoloLoading = false;
+  var _isSoloLoading = true;
   bool get isSoloLoading => _isSoloLoading;
+
+  var _appVersion = "";
+  String get appVersion => _appVersion;
 
   void changeStateSearching(bool state) {
     _isSearching = state;
     notifyListeners();
-    debugPrint(_isSearching.toString());
   }
 
   void clearSearchList() {
@@ -64,15 +68,11 @@ class HomeData with ChangeNotifier {
   }
 
   String nameSingle(EmployeeModel employeeModel) {
-    final name =
-        "${employeeModel.lastName}, ${employeeModel.firstName} ${employeeModel.middleName} ";
-    return name;
+    return "${employeeModel.lastName}, ${employeeModel.firstName} ${employeeModel.middleName}";
   }
 
   String fullName(SoloEmployeeModel employeeModel) {
-    final name =
-        "${employeeModel.lastName}, ${employeeModel.firstName} ${employeeModel.middleName} ";
-    return name;
+    return "${employeeModel.lastName}, ${employeeModel.firstName} ${employeeModel.middleName}";
   }
 
   Future<void> captureQrImage({required String fileName}) async {
@@ -168,14 +168,28 @@ class HomeData with ChangeNotifier {
     required String employeeId,
   }) async {
     _isSoloLoading = true;
+    await Future.delayed(const Duration(seconds: 1));
     try {
       final result = await HttpService.getSoloEmployee(employeeId: employeeId);
       _soloEmployeeList = result;
-      notifyListeners();
     } catch (e) {
       debugPrint('$e');
     } finally {
       _isSoloLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // get device version
+  Future<void> getPackageInfo() async {
+    try {
+      await PackageInfo.fromPlatform().then((result) {
+        _appVersion = result.version;
+      });
+    } catch (e) {
+      debugPrint('$e getPackageInfo');
+    } finally {
+      notifyListeners();
     }
   }
 }

@@ -64,7 +64,7 @@ final GoRouter _router = GoRouter(
       },
       routes: <RouteBase>[
         GoRoute(
-          path: "qr/:id",
+          path: "my_qr/:id",
           builder: (BuildContext context, GoRouterState state) {
             final id = state.pathParameters['id']!;
             log(id);

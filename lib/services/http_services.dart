@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+// ignore: unused_import
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,7 +19,7 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    debugPrint('getDepartment ${response.body}');
+    // debugPrint('getDepartment ${response.body}');
     return departmentModelFromJson(response.body);
   }
 
@@ -38,7 +39,7 @@ class HttpService {
           ),
         )
         .timeout(const Duration(seconds: 10));
-    debugPrint('getEmployee ${response.body}');
+    // debugPrint('getEmployee ${response.body}');
     return employeeModelFromJson(response.body);
   }
 
@@ -58,7 +59,7 @@ class HttpService {
         )
         .timeout(const Duration(seconds: 10));
 
-    debugPrint('getEmployeeCount ${response.body}');
+    // debugPrint('getEmployeeCount ${response.body}');
     return json.decode(response.body)['count'];
   }
 
@@ -80,7 +81,7 @@ class HttpService {
         )
         .timeout(const Duration(seconds: 10));
 
-    debugPrint('searchEmployee ${response.body}');
+    // debugPrint('searchEmployee ${response.body}');
     return employeeModelFromJson(response.body);
   }
 
@@ -102,7 +103,7 @@ class HttpService {
         )
         .timeout(const Duration(seconds: 10));
 
-    debugPrint('loadMore ${response.body}');
+    // debugPrint('loadMore ${response.body}');
     return employeeModelFromJson(response.body);
   }
 
@@ -123,7 +124,7 @@ class HttpService {
         )
         .timeout(const Duration(seconds: 10));
 
-    debugPrint('getSoloEmployee ${response.body}');
+    // debugPrint('getSoloEmployee ${response.body}');
     return soloEmployeeModelFromJson(response.body);
   }
 }

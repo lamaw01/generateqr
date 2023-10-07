@@ -30,13 +30,12 @@ class _HomeViewState extends State<HomeView> {
     instance.departmentList.add(allDepartment);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await instance.getDepartment();
+      await instance.getPackageInfo();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    const String title = 'Generate QR';
-
     Future<void> showQrDialog({
       required EmployeeModel employee,
     }) async {
@@ -89,10 +88,28 @@ class _HomeViewState extends State<HomeView> {
       );
     }
 
+    const String title = 'Generate QR';
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(title),
+        title: Consumer<HomeData>(
+          builder: (context, provider, child) {
+            var version = 'v${provider.appVersion}';
+            return Row(
+              children: [
+                const Text(title),
+                const SizedBox(
+                  width: 2.5,
+                ),
+                Text(
+                  version,
+                  style: const TextStyle(fontSize: 12.0),
+                ),
+              ],
+            );
+          },
+        ),
       ),
       body: Scrollbar(
         thumbVisibility: true,
@@ -112,7 +129,7 @@ class _HomeViewState extends State<HomeView> {
                     }
                     return SizedBox(
                       height: 175.0,
-                      width: 800.0,
+                      width: 600.0,
                       child: Card(
                         child: Padding(
                           padding:
@@ -122,13 +139,14 @@ class _HomeViewState extends State<HomeView> {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
+                                mainAxisSize: MainAxisSize.max,
                                 children: [
                                   const Text(
                                     'Department: ',
                                     style: TextStyle(fontSize: 20.0),
                                   ),
                                   Container(
-                                    width: 500.0,
+                                    width: 320.0,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
                                       border: Border.all(
@@ -175,7 +193,7 @@ class _HomeViewState extends State<HomeView> {
                               ),
                               const SizedBox(height: 15.0),
                               SizedBox(
-                                width: 690.0,
+                                width: 500.0,
                                 child: TextField(
                                   enabled: true,
                                   style: const TextStyle(fontSize: 20.0),
@@ -219,7 +237,7 @@ class _HomeViewState extends State<HomeView> {
                     if (dropdownValue.departmentId != '666') {
                       return SizedBox(
                         height: 50.0,
-                        width: 800.0,
+                        width: 600.0,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Row(
@@ -253,7 +271,7 @@ class _HomeViewState extends State<HomeView> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
-                            width: 800.0,
+                            width: 600.0,
                             child: Column(
                               children: provider.searchEmployeeList.map((item) {
                                 return Card(
@@ -291,7 +309,7 @@ class _HomeViewState extends State<HomeView> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
-                            width: 800.0,
+                            width: 600.0,
                             child: Column(
                               children: provider.employeeList.map((item) {
                                 return Card(

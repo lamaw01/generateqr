@@ -16,11 +16,11 @@ class QrSoloView extends StatefulWidget {
 class _QrSoloViewState extends State<QrSoloView> {
   @override
   void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       var instance = Provider.of<HomeData>(context, listen: false);
-      instance.getSoloEmployee(employeeId: widget.id);
+      await instance.getSoloEmployee(employeeId: widget.id);
     });
+    super.initState();
   }
 
   @override
@@ -28,42 +28,66 @@ class _QrSoloViewState extends State<QrSoloView> {
     return Scaffold(
       body: Consumer<HomeData>(
         builder: ((context, provider, child) {
+          final String name = provider.fullName(provider.soloEmployeeList);
           if (provider.isSoloLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (provider.soloEmployeeList == null) {
+            return const Center(
+                child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Loading..'),
+                SizedBox(width: 5.0),
+                CircularProgressIndicator(),
+              ],
+            ));
+          } else if (provider.soloEmployeeList.id == 0) {
             return const Center(child: Text('Error getting QR'));
           } else {
             return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    height: 300.0,
-                    width: 300.0,
-                    child: Screenshot(
-                      controller: provider.screenshotController,
-                      child: Container(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: QrImageView(
+              child: SizedBox(
+                height: 300.0,
+                width: 300.0,
+                child: Screenshot(
+                  controller: provider.screenshotController,
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          QrImageView(
                             data:
-                                '{"name":"${provider.fullName(provider.soloEmployeeList!)}","id":"${provider.soloEmployeeList!.id}"}',
+                                '{"name":"${provider.fullName(provider.soloEmployeeList)}","id":"${provider.soloEmployeeList.employeeId}"}',
                             version: QrVersions.auto,
                             size: 225.0,
                             semanticsLabel:
-                                provider.fullName(provider.soloEmployeeList!),
+                                provider.fullName(provider.soloEmployeeList),
                             backgroundColor: Colors.white,
                           ),
-                        ),
+                          Text(
+                            name,
+                            maxLines: 1,
+                            style: const TextStyle(fontSize: 15.0),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
             );
           }
         }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Download',
+        child: const Icon(Icons.download),
+        onPressed: () async {
+          var instance = Provider.of<HomeData>(context, listen: false);
+          await instance.captureQrImage(
+              fileName: instance.fullName(instance.soloEmployeeList));
+        },
       ),
     );
   }
