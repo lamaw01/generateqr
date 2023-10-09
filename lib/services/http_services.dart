@@ -58,7 +58,6 @@ class HttpService {
           ),
         )
         .timeout(const Duration(seconds: 10));
-
     // debugPrint('getEmployeeCount ${response.body}');
     return json.decode(response.body)['count'];
   }
@@ -80,7 +79,6 @@ class HttpService {
           ),
         )
         .timeout(const Duration(seconds: 10));
-
     // debugPrint('searchEmployee ${response.body}');
     return employeeModelFromJson(response.body);
   }
@@ -102,7 +100,6 @@ class HttpService {
           ),
         )
         .timeout(const Duration(seconds: 10));
-
     // debugPrint('loadMore ${response.body}');
     return employeeModelFromJson(response.body);
   }
@@ -123,7 +120,6 @@ class HttpService {
           ),
         )
         .timeout(const Duration(seconds: 10));
-
     // debugPrint('getSoloEmployee ${response.body}');
     return soloEmployeeModelFromJson(response.body);
   }

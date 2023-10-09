@@ -34,7 +34,7 @@ class HomeData with ChangeNotifier {
   List<EmployeeModel> get searchEmployeeList => _searchEmployeeList;
 
   var _soloEmployeeList = SoloEmployeeModel(
-      id: 0, employeeId: '00000', firstName: '', lastName: '', middleName: '');
+      id: 0, employeeId: '', firstName: '', lastName: '', middleName: '');
   SoloEmployeeModel get soloEmployeeList => _soloEmployeeList;
 
   var _isSoloLoading = true;

@@ -114,7 +114,7 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           IconButton(
               onPressed: () {
-                context.goNamed('/my_qr',
+                context.goNamed('my_qr',
                     pathParameters: <String, String>{"id": "01152"});
               },
               icon: const Icon(Icons.forward)),

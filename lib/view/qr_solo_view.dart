@@ -39,8 +39,13 @@ class _QrSoloViewState extends State<QrSoloView> {
                 CircularProgressIndicator(),
               ],
             ));
-          } else if (provider.soloEmployeeList.id == 0) {
-            return const Center(child: Text('Error getting QR'));
+          } else if (provider.soloEmployeeList.employeeId == '00000') {
+            return const Center(
+                child: Text('ID not found.', style: TextStyle(fontSize: 18.0)));
+          } else if (provider.soloEmployeeList.employeeId.isEmpty) {
+            return const Center(
+                child: Text('Error getting QR.',
+                    style: TextStyle(fontSize: 18.0)));
           } else {
             return Center(
               child: SizedBox(

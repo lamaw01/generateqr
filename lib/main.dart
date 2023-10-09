@@ -40,10 +40,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: false,
       ),
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
-      // home: const HomeView(),
     );
   }
 }
@@ -62,19 +58,14 @@ final GoRouter _router = GoRouter(
       path: '/',
       name: '/home',
       builder: (BuildContext context, GoRouterState state) {
-        return const HomeView();
+        String? id = state.uri.queryParameters['id'];
+        log('$id kani');
+        if (id == null || id == '') {
+          return const HomeView();
+        } else {
+          return QrSoloView(id: state.uri.queryParameters['id']!);
+        }
       },
-      routes: <RouteBase>[
-        GoRoute(
-          path: 'my_qr/:id',
-          name: '/my_qr',
-          builder: (BuildContext context, GoRouterState state) {
-            final id = state.pathParameters['id']!;
-            log(id);
-            return QrSoloView(id: id);
-          },
-        ),
-      ],
     ),
   ],
 );
