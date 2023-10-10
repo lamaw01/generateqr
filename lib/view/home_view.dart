@@ -18,17 +18,15 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final idController = TextEditingController();
   final scrollController = ScrollController();
-  var dropdownValue =
-      DepartmentModel(departmentId: '666', departmentName: '--Select--');
-  final allDepartment =
-      DepartmentModel(departmentId: '000', departmentName: 'All');
+  late DepartmentModel dropdownValue;
 
   @override
   void initState() {
     super.initState();
     var instance = Provider.of<HomeData>(context, listen: false);
-    instance.departmentList.add(dropdownValue);
-    instance.departmentList.add(allDepartment);
+    // instance.departmentList.add(
+    //     DepartmentModel(departmentId: '666', departmentName: '--Select--'));
+    dropdownValue = instance.departmentList.first;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await instance.getDepartment();
       await instance.getPackageInfo();
@@ -120,23 +118,22 @@ class _HomeViewState extends State<HomeView> {
         //       icon: const Icon(Icons.forward)),
         // ],
       ),
-      body: Scrollbar(
-        thumbVisibility: true,
-        trackVisibility: true,
-        controller: scrollController,
-        child: SingleChildScrollView(
-          controller: scrollController,
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 10.0),
-                Consumer<HomeData>(
-                  builder: (context, provider, child) {
-                    if (provider.isLoading) {
-                      return const CircularProgressIndicator();
-                    }
-                    return SizedBox(
+      body: Consumer<HomeData>(builder: (context, provider, child) {
+        if (provider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return Scrollbar(
+            thumbVisibility: true,
+            trackVisibility: true,
+            controller: scrollController,
+            child: SingleChildScrollView(
+              controller: scrollController,
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 10.0),
+                    SizedBox(
                       height: 175.0,
                       width: 600.0,
                       child: Card(
@@ -238,13 +235,9 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
-                Consumer<HomeData>(
-                  builder: (context, provider, child) {
-                    if (dropdownValue.departmentId != '666') {
-                      return SizedBox(
+                    ),
+                    if (dropdownValue.departmentId != '666') ...[
+                      SizedBox(
                         height: 50.0,
                         width: 600.0,
                         child: Padding(
@@ -268,15 +261,10 @@ class _HomeViewState extends State<HomeView> {
                             ],
                           ),
                         ),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                ),
-                Consumer<HomeData>(
-                  builder: (context, provider, child) {
-                    if (provider.isSearching) {
-                      return Column(
+                      ),
+                    ],
+                    if (provider.isSearching) ...[
+                      Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
@@ -312,9 +300,9 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ),
                         ],
-                      );
-                    } else {
-                      return Column(
+                      ),
+                    ] else ...[
+                      Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
@@ -379,16 +367,16 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ],
                         ],
-                      );
-                    }
-                  },
+                      ),
+                    ],
+                    const SizedBox(height: 50.0),
+                  ],
                 ),
-                const SizedBox(height: 50.0),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
+          );
+        }
+      }),
     );
   }
 }

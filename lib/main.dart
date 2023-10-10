@@ -9,6 +9,7 @@ import 'package:url_strategy/url_strategy.dart';
 
 import 'data/home_data.dart';
 import 'view/home_view.dart';
+import 'view/login_view.dart';
 import 'view/qr_solo_view.dart';
 
 Future<void> main() async {
@@ -56,15 +57,30 @@ final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/',
-      name: '/home',
+      name: 'root',
       builder: (BuildContext context, GoRouterState state) {
         String? id = state.uri.queryParameters['id'];
         log('$id kani');
         if (id == null || id == '') {
-          return const HomeView();
+          return const LoginView();
+          // return const HomeView();
         } else {
           return QrSoloView(id: state.uri.queryParameters['id']!);
         }
+      },
+    ),
+    GoRoute(
+      path: '/login',
+      name: 'login',
+      builder: (BuildContext context, GoRouterState state) {
+        return const LoginView();
+      },
+    ),
+    GoRoute(
+      path: '/home',
+      name: 'home',
+      builder: (BuildContext context, GoRouterState state) {
+        return const HomeView();
       },
     ),
   ],

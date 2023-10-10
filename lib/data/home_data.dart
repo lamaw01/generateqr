@@ -15,7 +15,10 @@ import '../services/http_services.dart';
 class HomeData with ChangeNotifier {
   final screenshotController = ScreenshotController();
 
-  final _departmentList = <DepartmentModel>[];
+  final _departmentList = <DepartmentModel>[
+    DepartmentModel(departmentId: '666', departmentName: '--Select--'),
+    DepartmentModel(departmentId: '000', departmentName: 'All')
+  ];
   List<DepartmentModel> get departmentList => _departmentList;
 
   var _isLoading = true;
@@ -113,7 +116,11 @@ class HomeData with ChangeNotifier {
   Future<void> getDepartment() async {
     try {
       final result = await HttpService.getDepartment();
-      _departmentList.addAll(result);
+      if (_departmentList.length == 2) {
+        _departmentList.insertAll(2, result);
+      } else {
+        _departmentList.setAll(2, result);
+      }
     } catch (e) {
       debugPrint('$e');
     } finally {
