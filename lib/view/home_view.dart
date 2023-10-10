@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:generateqr/model/department_model.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
@@ -111,14 +111,14 @@ class _HomeViewState extends State<HomeView> {
             );
           },
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.goNamed('my_qr',
-                    pathParameters: <String, String>{"id": "01152"});
-              },
-              icon: const Icon(Icons.forward)),
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         context.goNamed('my_qr',
+        //             pathParameters: <String, String>{"id": "01152"});
+        //       },
+        //       icon: const Icon(Icons.forward)),
+        // ],
       ),
       body: Scrollbar(
         thumbVisibility: true,
