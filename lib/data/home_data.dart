@@ -1,8 +1,9 @@
-import 'dart:convert';
+// import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html';
+// import 'dart:html';
 import 'dart:typed_data';
 
+import 'package:file_saver/file_saver.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
@@ -84,34 +85,38 @@ class HomeData with ChangeNotifier {
         .then((Uint8List? result) async {
       debugPrint(result.toString());
       if (result != null) {
-        downloadQrImage(
-          bytes: result,
-          downloadName: 'QR $fileName.png',
-        );
+        // downloadQrImage(
+        //   bytes: result,
+        //   downloadName: 'QR $fileName.png',
+        // );
+        await FileSaver.instance.saveFile(
+            name: 'QR $fileName.png', bytes: result, mimeType: MimeType.png);
       }
     }).catchError((Object err) {
       debugPrint(err.toString());
     });
   }
 
-  void downloadQrImage({
-    required List<int> bytes,
-    required String downloadName,
-  }) {
-    // Encode our file in base64
-    final base64 = base64Encode(bytes);
-    // Create the link with the file
-    final anchor =
-        AnchorElement(href: 'data:application/octet-stream;base64,$base64')
-          ..target = 'blank';
-    // add the name
-    anchor.download = downloadName;
-    // trigger download
-    document.body!.append(anchor);
-    anchor.click();
-    anchor.remove();
-    return;
-  }
+  // void downloadQrImage({
+  //   required Uint8List bytes,
+  //   required String downloadName,
+  // }) async {
+  //   // Encode our file in base64
+  //   // final base64 = base64Encode(bytes);
+  //   // // Create the link with the file
+  //   // final anchor =
+  //   //     AnchorElement(href: 'data:application/octet-stream;base64,$base64')
+  //   //       ..target = 'blank';
+  //   // // add the name
+  //   // anchor.download = downloadName;
+  //   // // trigger download
+  //   // document.body!.append(anchor);
+  //   // anchor.click();
+  //   // anchor.remove();
+  //   // return;
+  //   await FileSaver.instance
+  //       .saveFile(name: downloadName, bytes: bytes, mimeType: MimeType.png);
+  // }
 
   Future<void> getDepartment() async {
     try {

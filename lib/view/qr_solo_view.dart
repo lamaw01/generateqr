@@ -48,38 +48,58 @@ class _QrSoloViewState extends State<QrSoloView> {
                     style: TextStyle(fontSize: 18.0)));
           } else {
             return Center(
-              child: SizedBox(
-                height: 300.0,
-                width: 300.0,
-                child: Screenshot(
-                  controller: provider.screenshotController,
-                  child: Container(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          QrImageView(
-                            data:
-                                '{"name":"${provider.fullName(provider.soloEmployeeList)}","id":"${provider.soloEmployeeList.employeeId}"}',
-                            version: QrVersions.auto,
-                            size: 225.0,
-                            semanticsLabel:
-                                provider.fullName(provider.soloEmployeeList),
-                            backgroundColor: Colors.white,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 300.0,
+                    width: 300.0,
+                    child: Screenshot(
+                      controller: provider.screenshotController,
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              QrImageView(
+                                data:
+                                    '{"name":"${provider.fullName(provider.soloEmployeeList)}","id":"${provider.soloEmployeeList.employeeId}"}',
+                                version: QrVersions.auto,
+                                size: 225.0,
+                                semanticsLabel: provider
+                                    .fullName(provider.soloEmployeeList),
+                                backgroundColor: Colors.white,
+                              ),
+                              Text(
+                                name,
+                                maxLines: 1,
+                                style: const TextStyle(fontSize: 15.0),
+                              ),
+                            ],
                           ),
-                          Text(
-                            name,
-                            maxLines: 1,
-                            style: const TextStyle(fontSize: 15.0),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  // const SizedBox(height: 20.0),
+                  // TextButton(
+                  //   onPressed: () async {
+                  //     var instance =
+                  //         Provider.of<HomeData>(context, listen: false);
+                  //     await instance.captureQrImage(
+                  //         fileName:
+                  //             instance.fullName(instance.soloEmployeeList));
+                  //   },
+                  //   child: const Text(
+                  //     'Download',
+                  //     style: TextStyle(fontSize: 20.0),
+                  //   ),
+                  // ),
+                ],
               ),
             );
           }
