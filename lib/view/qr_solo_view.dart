@@ -85,20 +85,6 @@ class _QrSoloViewState extends State<QrSoloView> {
                       ),
                     ),
                   ),
-                  // const SizedBox(height: 20.0),
-                  // TextButton(
-                  //   onPressed: () async {
-                  //     var instance =
-                  //         Provider.of<HomeData>(context, listen: false);
-                  //     await instance.captureQrImage(
-                  //         fileName:
-                  //             instance.fullName(instance.soloEmployeeList));
-                  //   },
-                  //   child: const Text(
-                  //     'Download',
-                  //     style: TextStyle(fontSize: 20.0),
-                  //   ),
-                  // ),
                 ],
               ),
             );

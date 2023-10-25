@@ -1,6 +1,3 @@
-// import 'dart:convert';
-// ignore: avoid_web_libraries_in_flutter
-// import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:file_saver/file_saver.dart';
@@ -25,16 +22,16 @@ class HomeData with ChangeNotifier {
   var _isLoading = true;
   bool get isLoading => _isLoading;
 
-  final _employeeList = <EmployeeModel>[];
+  var _employeeList = <EmployeeModel>[];
   List<EmployeeModel> get employeeList => _employeeList;
 
-  var _rowCount = 0;
-  int get rowCount => _rowCount;
+  // var _rowCount = 0;
+  // int get rowCount => _rowCount;
 
   var _isSearching = false;
   bool get isSearching => _isSearching;
 
-  final _searchEmployeeList = <EmployeeModel>[];
+  var _searchEmployeeList = <EmployeeModel>[];
   List<EmployeeModel> get searchEmployeeList => _searchEmployeeList;
 
   var _soloEmployeeList = SoloEmployeeModel(
@@ -137,9 +134,10 @@ class HomeData with ChangeNotifier {
   Future<void> getEmployee({required String departmentId}) async {
     try {
       final result = await HttpService.getEmployee(departmentId: departmentId);
-      _employeeList.replaceRange(0, _employeeList.length, result);
-      _rowCount =
-          await HttpService.getEmployeeCount(departmentId: departmentId);
+      // _employeeList.replaceRange(0, _employeeList.length, result);
+      // _rowCount =
+      // await HttpService.getEmployeeCount(departmentId: departmentId);
+      _employeeList = result;
       notifyListeners();
     } catch (e) {
       debugPrint('$e');
@@ -155,26 +153,27 @@ class HomeData with ChangeNotifier {
         departmentId: departmentId,
         employeeId: employeeId,
       );
-      _searchEmployeeList.replaceRange(0, _searchEmployeeList.length, result);
+      // _searchEmployeeList.replaceRange(0, _searchEmployeeList.length, result);
+      _searchEmployeeList = result;
       notifyListeners();
     } catch (e) {
       debugPrint('$e');
     }
   }
 
-  Future<void> loadMore({
-    required String id,
-    required String departmentId,
-  }) async {
-    try {
-      final result =
-          await HttpService.loadMore(id: id, departmentId: departmentId);
-      _employeeList.addAll(result);
-      notifyListeners();
-    } catch (e) {
-      debugPrint('$e');
-    }
-  }
+  // Future<void> loadMore({
+  //   required String id,
+  //   required String departmentId,
+  // }) async {
+  //   try {
+  //     final result =
+  //         await HttpService.loadMore(id: id, departmentId: departmentId);
+  //     _employeeList.addAll(result);
+  //     notifyListeners();
+  //   } catch (e) {
+  //     debugPrint('$e');
+  //   }
+  // }
 
   Future<void> getSoloEmployee({
     required String employeeId,

@@ -43,24 +43,24 @@ class HttpService {
     return employeeModelFromJson(response.body);
   }
 
-  static Future<int> getEmployeeCount({
-    required String departmentId,
-  }) async {
-    var response = await http
-        .post(
-          Uri.parse('$_serverUrl/get_employee_count.php'),
-          headers: <String, String>{
-            'Accept': '*/*',
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: json.encode(
-            <String, dynamic>{'department_id': departmentId},
-          ),
-        )
-        .timeout(const Duration(seconds: 10));
-    // debugPrint('getEmployeeCount ${response.body}');
-    return json.decode(response.body)['count'];
-  }
+  // static Future<int> getEmployeeCount({
+  //   required String departmentId,
+  // }) async {
+  //   var response = await http
+  //       .post(
+  //         Uri.parse('$_serverUrl/get_employee_count.php'),
+  //         headers: <String, String>{
+  //           'Accept': '*/*',
+  //           'Content-Type': 'application/json; charset=UTF-8',
+  //         },
+  //         body: json.encode(
+  //           <String, dynamic>{'department_id': departmentId},
+  //         ),
+  //       )
+  //       .timeout(const Duration(seconds: 10));
+  //   // debugPrint('getEmployeeCount ${response.body}');
+  //   return json.decode(response.body)['count'];
+  // }
 
   static Future<List<EmployeeModel>> searchEmployee(
       {required String departmentId, required String employeeId}) async {
@@ -83,26 +83,26 @@ class HttpService {
     return employeeModelFromJson(response.body);
   }
 
-  static Future<List<EmployeeModel>> loadMore(
-      {required String id, required String departmentId}) async {
-    var response = await http
-        .post(
-          Uri.parse('$_serverUrl/load_more.php'),
-          headers: <String, String>{
-            'Accept': '*/*',
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: json.encode(
-            <String, dynamic>{
-              'id': id,
-              'department_id': departmentId,
-            },
-          ),
-        )
-        .timeout(const Duration(seconds: 10));
-    // debugPrint('loadMore ${response.body}');
-    return employeeModelFromJson(response.body);
-  }
+  // static Future<List<EmployeeModel>> loadMore(
+  //     {required String id, required String departmentId}) async {
+  //   var response = await http
+  //       .post(
+  //         Uri.parse('$_serverUrl/load_more.php'),
+  //         headers: <String, String>{
+  //           'Accept': '*/*',
+  //           'Content-Type': 'application/json; charset=UTF-8',
+  //         },
+  //         body: json.encode(
+  //           <String, dynamic>{
+  //             'id': id,
+  //             'department_id': departmentId,
+  //           },
+  //         ),
+  //       )
+  //       .timeout(const Duration(seconds: 10));
+  //   // debugPrint('loadMore ${response.body}');
+  //   return employeeModelFromJson(response.body);
+  // }
 
   static Future<SoloEmployeeModel> getSoloEmployee(
       {required String employeeId}) async {
