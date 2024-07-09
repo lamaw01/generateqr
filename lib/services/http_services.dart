@@ -19,7 +19,7 @@ class HttpService {
   String get serverUrlHttps => _serverUrlHttps;
 
   static final String _url =
-      isSecured == 's' ? _serverUrlHttp : _serverUrlHttps;
+      isSecured == 's' ? _serverUrlHttps : _serverUrlHttp;
 
   static final String _serverUrl = '${_url}generate_qr_api';
   static String get serverUrl => _serverUrl;
