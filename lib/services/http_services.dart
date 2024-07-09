@@ -9,7 +9,22 @@ import '../model/employee_model.dart';
 import '../model/solo_employee_model.dart';
 
 class HttpService {
-  static const String _serverUrl = 'http://103.62.153.74:53000/generate_qr_api';
+  static String currentUri = Uri.base.toString();
+  static String isSecured = currentUri.substring(4, 5);
+
+  static const String _serverUrlHttp = 'http://103.62.153.74:53000/';
+  String get serverUrlHttp => _serverUrlHttp;
+
+  static const String _serverUrlHttps = 'https://konek.parasat.tv:50443/dtr/';
+  String get serverUrlHttps => _serverUrlHttps;
+
+  static final String _url =
+      isSecured == 's' ? _serverUrlHttp : _serverUrlHttps;
+
+  static final String _serverUrl = '${_url}generate_qr_api';
+  static String get serverUrl => _serverUrl;
+
+  // static const String _serverUrl = 'http://103.62.153.74:53000/generate_qr_api';
 
   static Future<List<DepartmentModel>> getDepartment() async {
     var response = await http.get(
