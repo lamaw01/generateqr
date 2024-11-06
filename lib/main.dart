@@ -60,7 +60,7 @@ final GoRouter _router = GoRouter(
       name: 'root',
       builder: (BuildContext context, GoRouterState state) {
         String? id = state.uri.queryParameters['id'];
-        log('$id kani');
+        // log('$id kani');
         if (id == null || id == '') {
           return const LoginView();
           // return const HomeView();
