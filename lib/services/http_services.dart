@@ -9,19 +9,21 @@ import '../model/employee_model.dart';
 import '../model/solo_employee_model.dart';
 
 class HttpService {
-  static String currentUri = Uri.base.toString();
-  static String isSecured = currentUri.substring(4, 5);
+  // static String currentUri = Uri.base.toString();
+  // static String isSecured = currentUri.substring(4, 5);
 
-  static const String _serverUrlHttp = 'https://konek.parasat.tv:53000/';
-  String get serverUrlHttp => _serverUrlHttp;
+  // static const String _serverUrlHttp = 'https://konek.parasat.tv:53000/';
+  // String get serverUrlHttp => _serverUrlHttp;
 
-  static const String _serverUrlHttps = 'https://konek.parasat.tv:53000/dtr/';
-  String get serverUrlHttps => _serverUrlHttps;
+  // static const String _serverUrlHttps = 'https://konek.parasat.tv:53000/dtr/';
+  // String get serverUrlHttps => _serverUrlHttps;
 
-  static final String _url =
-      isSecured == 's' ? _serverUrlHttps : _serverUrlHttp;
+  // static final String _url =
+  //     isSecured == 's' ? _serverUrlHttps : _serverUrlHttp;
 
-  static final String _serverUrl = '${_url}generate_qr_api';
+  static const String _url = 'https://konek.parasat.tv:53000/';
+
+  static const String _serverUrl = '${_url}generate_qr_api';
   static String get serverUrl => _serverUrl;
 
   // static const String _serverUrl = 'http://103.62.153.74:53000/generate_qr_api';
