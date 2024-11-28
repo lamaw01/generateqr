@@ -62,8 +62,8 @@ final GoRouter _router = GoRouter(
         String? id = state.uri.queryParameters['id'];
         // log('$id kani');
         if (id == null || id == '') {
-          return const LoginView();
-          // return const HomeView();
+          // return const LoginView();
+          return const HomeView();
         } else {
           return QrSoloView(id: state.uri.queryParameters['id']!);
         }

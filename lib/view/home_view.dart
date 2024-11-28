@@ -26,7 +26,7 @@ class _HomeViewState extends State<HomeView> {
     var instance = Provider.of<HomeData>(context, listen: false);
     dropdownValue = instance.departmentList.first;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await instance.getDepartment();
+      // await instance.getDepartment();
       await instance.getPackageInfo();
     });
   }
@@ -57,12 +57,10 @@ class _HomeViewState extends State<HomeView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         QrImageView(
-                          data:
-                              '{"name":"${instance.nameSingle(employee)}","id":"${employee.employeeId}"}',
+                          data: '{"name":"${instance.nameSingle(employee)}","id":"${employee.employeeId}"}',
                           version: QrVersions.auto,
                           size: 225.0,
-                          semanticsLabel:
-                              instance.fullName(instance.soloEmployeeList),
+                          semanticsLabel: instance.fullName(instance.soloEmployeeList),
                           backgroundColor: Colors.white,
                         ),
                         Text(
@@ -141,8 +139,7 @@ class _HomeViewState extends State<HomeView> {
                             child: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     const Text(
@@ -162,32 +159,24 @@ class _HomeViewState extends State<HomeView> {
                                       ),
                                       child: DropdownButtonHideUnderline(
                                         child: DropdownButton<DepartmentModel>(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10.0),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
+                                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                          borderRadius: BorderRadius.circular(5.0),
                                           value: dropdownValue,
-                                          onChanged:
-                                              (DepartmentModel? value) async {
+                                          onChanged: (DepartmentModel? value) async {
                                             if (value != null) {
                                               setState(() {
                                                 dropdownValue = value;
                                               });
-                                              await provider.getEmployee(
-                                                  departmentId: dropdownValue
-                                                      .departmentId);
+                                              await provider.getEmployee(departmentId: dropdownValue.departmentId);
                                               if (provider.isSearching) {
                                                 idController.clear();
                                                 provider.clearSearchList();
                                               }
                                             }
                                           },
-                                          items: provider.departmentList.map<
-                                                  DropdownMenuItem<
-                                                      DepartmentModel>>(
-                                              (DepartmentModel value) {
-                                            return DropdownMenuItem<
-                                                DepartmentModel>(
+                                          items: provider.departmentList
+                                              .map<DropdownMenuItem<DepartmentModel>>((DepartmentModel value) {
+                                            return DropdownMenuItem<DepartmentModel>(
                                               value: value,
                                               child: Text(value.departmentName),
                                             );
@@ -211,8 +200,7 @@ class _HomeViewState extends State<HomeView> {
                                           width: 1.0,
                                         ),
                                       ),
-                                      contentPadding: EdgeInsets.fromLTRB(
-                                          12.0, 12.0, 12.0, 12.0),
+                                      contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
                                     ),
                                     controller: idController,
                                     onChanged: (String value) async {
@@ -222,8 +210,7 @@ class _HomeViewState extends State<HomeView> {
                                         } else {
                                           provider.changeStateSearching(true);
                                           await provider.searchEmployee(
-                                            departmentId:
-                                                dropdownValue.departmentId,
+                                            departmentId: dropdownValue.departmentId,
                                             employeeId: value.trim(),
                                           );
                                         }
@@ -245,19 +232,15 @@ class _HomeViewState extends State<HomeView> {
                           return Card(
                             child: ListTile(
                               titleAlignment: ListTileTitleAlignment.center,
-                              leading: Text(provider
-                                  .searchEmployeeList[index].employeeId),
+                              leading: Text(provider.searchEmployeeList[index].employeeId),
                               title: Text(
-                                provider.nameSingle(
-                                    provider.searchEmployeeList[index]),
+                                provider.nameSingle(provider.searchEmployeeList[index]),
                                 textAlign: TextAlign.center,
                               ),
                               trailing: IconButton(
                                 icon: const Icon(Icons.download),
                                 onPressed: () async {
-                                  await showQrDialog(
-                                      employee:
-                                          provider.searchEmployeeList[index]);
+                                  await showQrDialog(employee: provider.searchEmployeeList[index]);
                                 },
                                 splashRadius: 15.0,
                               ),
@@ -274,18 +257,15 @@ class _HomeViewState extends State<HomeView> {
                           return Card(
                             child: ListTile(
                               titleAlignment: ListTileTitleAlignment.center,
-                              leading:
-                                  Text(provider.employeeList[index].employeeId),
+                              leading: Text(provider.employeeList[index].employeeId),
                               title: Text(
-                                provider
-                                    .nameSingle(provider.employeeList[index]),
+                                provider.nameSingle(provider.employeeList[index]),
                                 textAlign: TextAlign.center,
                               ),
                               trailing: IconButton(
                                 icon: const Icon(Icons.download),
                                 onPressed: () async {
-                                  await showQrDialog(
-                                      employee: provider.employeeList[index]);
+                                  await showQrDialog(employee: provider.employeeList[index]);
                                 },
                                 splashRadius: 15.0,
                               ),
@@ -321,15 +301,12 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   double get maxExtent => math.max(maxHeight, minHeight);
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return SizedBox.expand(child: child);
   }
 
   @override
   bool shouldRebuild(SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
+    return maxHeight != oldDelegate.maxHeight || minHeight != oldDelegate.minHeight || child != oldDelegate.child;
   }
 }

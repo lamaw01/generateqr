@@ -38,7 +38,7 @@ dependencies:
   provider: ^6.0.5
   url_strategy: ^0.2.0
   qr_flutter: ^4.1.0
-  screenshot: ^2.1.0
+  screenshot: ^3.0.0
   http: ^1.0.0
   intl: ^0.18.1
   go_router: ^11.1.2
